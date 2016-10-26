@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:bin2c/bin2c.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:image2c/image2c.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BinUtilsTestApp/BinUtilsTestApp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BinUtilsTestLibrary/BinUtilsTestLibrary.xcodeproj">
+   </FileRef>
+</Workspace>
