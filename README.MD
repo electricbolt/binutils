@@ -1,12 +1,12 @@
-#binutils
+# binutils
 
 Xcode build time utilities for allowing resources to be included into iOS static libraries (which could otherwise only be included into an iOS dynamic framework).
 
-##bin2c
+## bin2c
 
 Converts any binary file (e.g. PNG, NIB) into a static array of bytes. The array is output into .h and .m files for inclusion into an iOS static library. bin2c has specific knowledge about @2x,@3x PNG file suffixes.
 
-###bin2c converting PNG files
+### bin2c converting PNG files
 
 The following example converts all PNG files in a directory into a static array in images.h and images.m.
 Assuming 3 PNG files named sheep.png, sheep@2x.png, cow.png:
@@ -33,7 +33,7 @@ const unsigned char COW_PNG[1215] = {0x3A,0x43,0x6F,0x6D...
 
 Ensure your PNG files to be converted are not ticked on in your static library target.
 
-###bin2c converting NIB files
+### bin2c converting NIB files
 
 First compile your Interface Builder XIB file into a NIB file (see BinUtilsTestLibrary example RunScript phase "ibtool"). Convert the NIB using bin2c as follows:
 
@@ -71,11 +71,11 @@ while ((nibItem = [nibEnumerator nextObject]) != nil) {
 // Use the customView
 customView.textColor = ...
 ```
-##image2c
+## image2c
 
 Generates a UIImage category extension from a list of PNG files. image2c has specific knowledge about @2x,@3x PNG file suffixes.
 
-###image2c generating UIImage category extension
+### image2c generating UIImage category extension
 
 The following example converts all PNG files in a directory into a static array in images.h and images.m and also a UIImage category extension UIImage+Images.h/m.
 Assuming 3 PNG files named sheep.png, sheep@2x.png, cow.png:
@@ -119,14 +119,14 @@ Resulting UIImage+Images.m file:
 
 Ensure you use the same set of PNG files for bin2c and image2c
 
-##Examples
+## Examples
 
 Included in the workspace are an iOS application BinUtilsTestApp and static library BinUtilsTestLibrary. The BinUtilsTestLibrary includes a 'CustomView.xib' Interface Builder file and two images 'SettingsIcon.png' and 'SettingsIcon@2x.png'. Two RunScript phases are included in the BinUtilsTestLibrary to convert the XIB file and PNG files.
 
-##Building
+## Building
 The bin directory contains pre-compiled versions of the bin2c and image2c utilities. These are used by the RunScript phases in the BinUtilsTestLibrary. You can also rebuild these utilities using the ./build.sh command or using Xcode IDE.
 
-##LICENSE
+## LICENSE
 ```
 binutils
 
