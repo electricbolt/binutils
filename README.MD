@@ -1,6 +1,9 @@
 # binutils
 
-Xcode build time utilities for allowing resources to be included into iOS static libraries (which could otherwise only be included into an iOS dynamic framework).
+Build time utilities for allowing resources to be included into:
+
+* iOS static libraries (which could otherwise only be included into an iOS dynamic framework).
+* Flutter plugin or apps directly in the binary instead of using the images/ directory.
 
 ## bin2c
 
