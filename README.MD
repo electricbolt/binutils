@@ -4,12 +4,16 @@ Xcode build time utilities for allowing resources to be included into iOS static
 
 ## bin2c
 
-Converts any binary file (e.g. PNG, NIB) into a static array of bytes. The array is output into .h and .m files for inclusion into an iOS static library. bin2c has specific knowledge about @2x,@3x PNG file suffixes.
+Converts any binary file (e.g. PNG, NIB) into a static array of bytes. The array is output into either:
 
-### bin2c converting PNG files
+* `.h` and `.m` files for inclusion into an iOS static library OR
+* `.dart` file for inclusion into a Flutter plugin or app.
 
-The following example converts all PNG files in a directory into a static array in images.h and images.m.
-Assuming 3 PNG files named sheep.png, sheep@2x.png, cow.png:
+bin2c has specific knowledge about @2x, @3x PNG file suffixes.
+
+### bin2c converting PNG files (Objective-C output)
+
+The following example converts all PNG files in a directory into a static array in images.h and images.m. Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
 ```
 bin2c -h *.png >images.h
@@ -32,6 +36,28 @@ const unsigned char COW_PNG[1215] = {0x3A,0x43,0x6F,0x6D...
 ```
 
 Ensure your PNG files to be converted are not ticked on in your static library target.
+
+### bin2c converting PNG files (Dart/Flutter output)
+
+The following example converts all PNG files in a directory into a static array in images.dart. Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
+
+```
+bin2c -dart *.png >rawimages.dart
+```
+
+Resulting rawimages.dart file:
+
+```
+import 'dart:typed_data';
+
+import 'package:flutter/widgets.dart';
+
+final SHEEP_PNG = Uint8List.fromList([0x89,0x50,0x4E,0x47...
+final SHEEP_2X_PNG = Uint8List.fromList([0x2E,0x34,0x2E,0x30...
+final COW_PNG = Uint8List.fromList([0x3A,0x43,0x6F,0x6D...
+```
+
+Ensure your PNG files to be converted are not included in your Flutter plugin or app by excluding the directory. (In Intelli-J, right click directory name in Project explorer, Mark Directory as, Excluded).
 
 ### bin2c converting NIB files
 
@@ -73,12 +99,17 @@ customView.textColor = ...
 ```
 ## image2c
 
-Generates a UIImage category extension from a list of PNG files. image2c has specific knowledge about @2x,@3x PNG file suffixes.
+Generates either a:
 
-### image2c generating UIImage category extension
+* UIImage category extension OR
+* Flutter class
+
+from a list of PNG files. image2c has specific knowledge about @2x, @3x PNG file suffixes.
+
+### image2c generating UIImage category extension (Objective-C)
 
 The following example converts all PNG files in a directory into a static array in images.h and images.m and also a UIImage category extension UIImage+Images.h/m.
-Assuming 3 PNG files named sheep.png, sheep@2x.png, cow.png:
+Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
 ```
 bin2c -h *.png >images.h
@@ -119,6 +150,41 @@ Resulting UIImage+Images.m file:
 
 Ensure you use the same set of PNG files for bin2c and image2c
 
+### image2c generating Images class (Dart/Flutter)
+
+The following example converts all PNG files in a directory into a static array in rawimages.dart and also a Images class in images.dart.
+Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
+
+```
+bin2c -dart *.png >rawimages.dart
+image2c -dart Images example/ui/images/rawimages *.png >images.dart
+```
+
+Resulting images.dart file:
+
+```
+import 'dart:core';
+
+import 'package:example/ui/images/rawimages.dart';
+import 'package:flutter/cupertino.dart';
+
+class Images {
+	static Image sheep({double? width, double? height}) {
+		var data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+		if ((data.devicePixelRatio - 1.0).abs() < 0.01) {
+			return Image.memory(SHEEP_PNG, scale: 1.0, width: width, height: height);
+		} else {
+			return Image.memory(SHEEP_2X_PNG, scale: 2.0, width: width, height: height);
+		}
+	}
+	static Image cow({double? width, double? height}) {
+		return Image.memory(COW_PNG, scale: 1.0, width: width, height: height);
+	}	
+}
+```
+
+Ensure you use the same set of PNG files for bin2c and image2c
+
 ## Examples
 
 Included in the workspace are an iOS application BinUtilsTestApp and static library BinUtilsTestLibrary. The BinUtilsTestLibrary includes a 'CustomView.xib' Interface Builder file and two images 'SettingsIcon.png' and 'SettingsIcon@2x.png'. Two RunScript phases are included in the BinUtilsTestLibrary to convert the XIB file and PNG files.
@@ -130,7 +196,7 @@ The bin directory contains pre-compiled versions of the bin2c and image2c utilit
 ```
 binutils
 
-Copyright © 2016 Electric Bolt Limited
+Copyright © 2016-2022 Electric Bolt Limited
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
