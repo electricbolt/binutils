@@ -1,9 +1,9 @@
-// binutils. Copyright © 2016 Electric Bolt Limited. See LICENSE file
+// binutils. Copyright © 2016-2022 Electric Bolt Limited. See LICENSE file
 
 @import Foundation;
 
 static void haltSyntax() {
-    fprintf(stderr, "image2c Version 1.1.0; Copyright © 2016-2022 Electric Bolt Limited\n");
+    fprintf(stderr, "image2c Version 1.1.2; Copyright © 2016-2022 Electric Bolt Limited\n");
     fprintf(stderr, "Syntax: image2c [-h|-dart] category-name header-file input-file-1 [input-file-2] ... [input-file-n]\n");
     fprintf(stderr, "    -h = output .h file\n");
     fprintf(stderr, "    -dart = output .dart file\n");
@@ -120,7 +120,7 @@ int main(int argc, const char * argv[]) {
                 NSMutableString* sb = [NSMutableString new];
                 [sb appendFormat: @"\tstatic Image %@({double? width, double? height}) {\n", f];
                 if ([scales count] > 1)
-                    [sb appendString: @"\t\tvar data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);\n\t\t"];
+                    [sb appendString: @"\t\tvar data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);\n\t\t"];
                 for (int i = 0; i < [scales count]; i++) {
                     NSString* s = [f uppercaseString];
                     int scale = [[scales objectAtIndex: i] intValue];
