@@ -18,21 +18,22 @@ bin2c has specific knowledge about @2x, @3x PNG file suffixes.
 
 The following example converts all PNG files in a directory into a static array in images.h and images.m. Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
-```
+```bash
 bin2c -h *.png >images.h
 bin2c *.png >images.m
 ```
 
 Resulting images.h file:
 
-```
+```objective-c
 extern unsigned char SHEEP_PNG[1683];
 extern unsigned char SHEEP_2X_PNG[2439];
 extern unsigned char COW_PNG[1215];
 ```
+
 Resulting images.m file:
 
-```
+```objective-c
 const unsigned char SHEEP_PNG[1683] = {0x89,0x50,0x4E,0x47...
 const unsigned char SHEEP_2X_PNG[2439] = {0x2E,0x34,0x2E,0x30...
 const unsigned char COW_PNG[1215] = {0x3A,0x43,0x6F,0x6D...
@@ -44,13 +45,13 @@ Ensure your PNG files to be converted are not ticked on in your static library t
 
 The following example converts all PNG files in a directory into a static array in images.dart. Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
-```
+```bash
 bin2c -dart *.png >rawimages.dart
 ```
 
-Resulting rawimages.dart file:
+Resulting `rawimages.dart` file:
 
-```
+```dart
 import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
@@ -79,7 +80,7 @@ Note that some compiled NIB files are not actually files but directory structure
 
 You can load the NIB file programmatically from within your static library with the following code:
 
-```
+```objective-c
 // Load NIB file from static array of bytes
 UINib* nib = [UINib nibWithData: [NSData dataWithBytes: CUSTOMVIEW_NIB length: sizeof(CUSTOMVIEW_NIB)] bundle: nil];
 
@@ -100,6 +101,7 @@ while ((nibItem = [nibEnumerator nextObject]) != nil) {
 // Use the customView
 customView.textColor = ...
 ```
+
 ## image2c
 
 Generates either a:
@@ -111,10 +113,12 @@ from a list of PNG files. image2c has specific knowledge about @2x, @3x PNG file
 
 ### image2c generating UIImage category extension (Objective-C)
 
-The following example converts all PNG files in a directory into a static array in images.h and images.m and also a UIImage category extension `UIImage+Images.h/m`.
-Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
+Assuming 3 PNG files named `sheep.png`, `sheep@2x.png` and `cow.png` the following example converts these into:
 
-```
+- a static array in `images.h` and `images.m` *and*
+- an UIImage category extension `UIImage+Images.h` and `UIImages+Images.m`.
+
+```bash
 bin2c -h *.png >images.h
 bin2c *.png >images.m
 image2c -h Images images.h *.png >UIImage+Images.h
@@ -123,7 +127,7 @@ image2c Images images.h *.png >UIImage+Images.m
 
 Resulting `UIImage+Images.h` file:
 
-```
+```objective-c
 @interface UIImage (Images)
 
 + (UIImage*) sheep;
@@ -134,7 +138,7 @@ Resulting `UIImage+Images.h` file:
 
 Resulting `UIImage+Images.m` file:
 
-```
+```objective-c
 @implementation UIImage (Images)
 
 + (UIImage*) sheep {
@@ -155,17 +159,19 @@ Ensure you use the same set of PNG files for bin2c and image2c
 
 ### image2c generating Images class (Dart/Flutter)
 
-The following example converts all PNG files in a directory into a static array in `rawimages.dart` and also a Images class in `images.dart`.
-Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
+Assuming 3 PNG files named `sheep.png`, `sheep@2x.png` and `cow.png` the following example converts these into:
 
-```
+- a static array in `rawimages.dart` *and*
+- an Images class in `images.dart`.
+
+```bash
 bin2c -dart *.png >rawimages.dart
 image2c -dart Images example/ui/images/rawimages *.png >images.dart
 ```
 
-Resulting images.dart file:
+Resulting `images.dart` file:
 
-```
+```dart
 import 'dart:core';
 
 import 'package:example/ui/images/rawimages.dart';
