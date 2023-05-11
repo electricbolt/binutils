@@ -172,9 +172,11 @@ import 'package:example/ui/images/rawimages.dart';
 import 'package:flutter/cupertino.dart';
 
 class Images {
+	static double _devicePixelRatio = WidgetsBinding.instance.platformDispatcher.implicitView!.devicePixelRatio;
+	static bool _1x = (_devicePixelRatio - 1.0).abs() < 0.01;
 	static Image sheep({double? width, double? height}) {
 		var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-		if ((data.devicePixelRatio - 1.0).abs() < 0.01) {
+		if (_1x) {
 			return Image.memory(SHEEP_PNG, scale: 1.0, width: width, height: height);
 		} else {
 			return Image.memory(SHEEP_2X_PNG, scale: 2.0, width: width, height: height);
