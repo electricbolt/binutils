@@ -181,6 +181,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 745C046B1DBA04CA0035C216;
@@ -205,7 +206,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SRC_DIR=\"$SRCROOT/BinUtilsTestLibrary\"\n\nif [ -e \"$SRC_DIR/CustomViewBin.h\" ]; then\n  echo Checking xib and h timestamps\n\n  XIB_TIMESTAMP=`stat -f \"%m\" $SRC_DIR/CustomView.xib`\n  H_TIMESTAMP=`stat -f \"%m\" $SRC_DIR/CustomViewBin.h`\n\n  if [ $XIB_TIMESTAMP -le $H_TIMESTAMP ]; then\n    echo \"xib file unchanged\";\n    exit 0;\n  fi\nfi\n\necho \"Compiling $SRC_DIR xib to nib\"\n\nibtool --errors --warnings --notices --module BinUtilsTestLibrary --auto-activate-custom-fonts --target-device iphone --minimum-deployment-target 7.0 --output-format human-readable-text --compile $SRC_DIR/CustomView.nib $SRC_DIR/CustomView.xib\n\necho \"Generating source file\"\n$SRCROOT/../bin/bin2c -h $SRC_DIR/CustomView.nib >$SRC_DIR/CustomViewBin.h\n$SRCROOT/../bin/bin2c $SRC_DIR/CustomView.nib >$SRC_DIR/CustomViewBin.m\n\nrm $SRC_DIR/CustomView.nib";
+			shellScript = "SRC_DIR=\"$SRCROOT/BinUtilsTestLibrary\"\n\nif [ -e \"$SRC_DIR/CustomViewBin.h\" ]; then\n  echo Checking xib and h timestamps\n\n  XIB_TIMESTAMP=`stat -f \"%m\" $SRC_DIR/CustomView.xib`\n  H_TIMESTAMP=`stat -f \"%m\" $SRC_DIR/CustomViewBin.h`\n\n  if [ $XIB_TIMESTAMP -le $H_TIMESTAMP ]; then\n    echo \"xib file unchanged\";\n    exit 0;\n  fi\nfi\n\necho \"Compiling $SRC_DIR xib to nib\"\n\nibtool --errors --warnings --notices --module BinUtilsTestLibrary --auto-activate-custom-fonts --target-device iphone --minimum-deployment-target 7.0 --output-format human-readable-text --compile $SRC_DIR/CustomView.nib $SRC_DIR/CustomView.xib\n\necho \"Generating source file\"\n$SRCROOT/../bin/bin2c -h $SRC_DIR/CustomView.nib >$SRC_DIR/CustomViewBin.h\n$SRCROOT/../bin/bin2c $SRC_DIR/CustomView.nib >$SRC_DIR/CustomViewBin.m\n\nrm $SRC_DIR/CustomView.nib\n";
 		};
 		745C04C11DBA141A0035C216 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -1,9 +1,9 @@
-// binutils. Copyright © 2016-2022 Electric Bolt Limited. See LICENSE file
+// binutils. Copyright © 2016-2023 Electric Bolt Limited. See LICENSE file
 
 @import Foundation;
 
 static void haltSyntax() {
-    fprintf(stderr, "image2c Version 1.1.2; Copyright © 2016-2022 Electric Bolt Limited\n");
+    fprintf(stderr, "image2c Version 1.2.0; Copyright © 2016-2023 Electric Bolt Limited\n");
     fprintf(stderr, "Syntax: image2c [-h|-dart] category-name header-file input-file-1 [input-file-2] ... [input-file-n]\n");
     fprintf(stderr, "    -h = output .h file\n");
     fprintf(stderr, "    -dart = output .dart file\n");
@@ -45,6 +45,8 @@ int main(int argc, const char * argv[]) {
 
         // Combine all scales (@1x,@2x,@3x) of identically named images together.
         NSMutableDictionary* distinctImageNames = [NSMutableDictionary new];
+        BOOL _1x = NO;
+        BOOL _2x = NO;
         for (int i = inputFileIndex; i < argc; i++) {
             NSString* inputFile = [NSString stringWithCString: argv[i] encoding: NSUTF8StringEncoding];
             NSString* f = inputFile.lastPathComponent;
@@ -70,6 +72,11 @@ int main(int argc, const char * argv[]) {
                 [distinctImageNames setObject: scales forKey: f];
             }
             [scales addObject: [NSNumber numberWithInt: scale]];
+            if (scale == 1) {
+                _1x = YES;
+            } else if (scale == 2) {
+                _2x = YES;
+            }
         }
 
         printf("// Auto-generated with image2c. Do not change.\n\n");
@@ -89,6 +96,9 @@ int main(int argc, const char * argv[]) {
             [sb appendFormat: @"import 'package:%@';\n", headerFile];
             [sb appendString: @"import 'package:flutter/cupertino.dart';\n\n"];
             [sb appendFormat: @"class %@ {\n", categoryName];
+            [sb appendString: @"\tstatic double _devicePixelRatio = WidgetsBinding.instance.platformDispatcher.implicitView!.devicePixelRatio;\n"];
+            [sb appendString: @"\tstatic bool _1x = (_devicePixelRatio - 1.0).abs() < 0.01;\n"];
+            [sb appendString: @"\tstatic bool _2x = (_devicePixelRatio - 2.0).abs() < 0.01;\n"];
             printf("%s", [sb UTF8String]);
         } else {
             NSMutableString* sb = [NSMutableString new];
@@ -120,7 +130,7 @@ int main(int argc, const char * argv[]) {
                 NSMutableString* sb = [NSMutableString new];
                 [sb appendFormat: @"\tstatic Image %@({double? width, double? height}) {\n", f];
                 if ([scales count] > 1)
-                    [sb appendString: @"\t\tvar data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);\n\t\t"];
+                    [sb appendString: @"\t\t"];
                 for (int i = 0; i < [scales count]; i++) {
                     NSString* s = [f uppercaseString];
                     int scale = [[scales objectAtIndex: i] intValue];
@@ -128,7 +138,11 @@ int main(int argc, const char * argv[]) {
                         s = [s stringByAppendingFormat: @"_%ldX", (long) scale];
                     s = [s stringByAppendingString: @"_PNG"];
                     if (i < [scales count] - 1) {
-                        [sb appendFormat: @"if ((data.devicePixelRatio - %ld.0).abs() < 0.01) {\n", (long) scale];
+                        if (scale == 1) {
+                            [sb appendString: @"if (_1x) {\n"];
+                        } else if (scale == 2) {
+                            [sb appendString: @"if (_2x) {\n"];
+                        }
                         [sb appendFormat: @"\t\t\treturn Image.memory(%@, scale: %ld.0, width: width, height: height);\n", s, (long) scale];
                         [sb appendString: @"\t\t} else "];
                     } else {

@@ -1,9 +1,9 @@
-// binutils. Copyright © 2016-2022 Electric Bolt Limited. See LICENSE file
+// binutils. Copyright © 2016-2023 Electric Bolt Limited. See LICENSE file
 
 @import Foundation;
 
 static void haltSyntax() {
-    fprintf(stderr, "bin2c Version 1.1.2; Copyright © 2016-2022 Electric Bolt Limited\n");
+    fprintf(stderr, "bin2c Version 1.2.0; Copyright © 2016-2023 Electric Bolt Limited\n");
     fprintf(stderr, "Syntax: bin2c [-h|-dart] input-file-1 [input-file-2] ... [input-file-n]\n");
     fprintf(stderr, "    -h = output .h file\n");
     fprintf(stderr, "    -dart = output .dart file\n");
