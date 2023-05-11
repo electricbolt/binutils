@@ -175,7 +175,6 @@ class Images {
 	static double _devicePixelRatio = WidgetsBinding.instance.platformDispatcher.implicitView!.devicePixelRatio;
 	static bool _1x = (_devicePixelRatio - 1.0).abs() < 0.01;
 	static Image sheep({double? width, double? height}) {
-		var data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
 		if (_1x) {
 			return Image.memory(SHEEP_PNG, scale: 1.0, width: width, height: height);
 		} else {
