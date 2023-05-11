@@ -18,12 +18,14 @@ bin2c has specific knowledge about @2x, @3x PNG file suffixes.
 
 The following example converts all PNG files in a directory into a static array in images.h and images.m. Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
+> Terminal
+
 ```bash
 bin2c -h *.png >images.h
 bin2c *.png >images.m
 ```
 
-Resulting `images.h` file:
+> Resulting Objective-C `images.h` file:
 
 ```objective-c
 extern unsigned char SHEEP_PNG[1683];
@@ -31,7 +33,7 @@ extern unsigned char SHEEP_2X_PNG[2439];
 extern unsigned char COW_PNG[1215];
 ```
 
-Resulting `images.m` file:
+> Resulting Objective-C `images.m` file:
 
 ```objective-c
 const unsigned char SHEEP_PNG[1683] = {0x89,0x50,0x4E,0x47...
@@ -45,11 +47,13 @@ Ensure your PNG files to be converted are not ticked on in your static library t
 
 The following example converts all PNG files in a directory into a static array in images.dart. Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
+> Terminal
+
 ```bash
 bin2c -dart *.png >rawimages.dart
 ```
 
-Resulting `rawimages.dart` file:
+> Resulting Dart `rawimages.dart` file:
 
 ```dart
 import 'dart:typed_data';
@@ -67,6 +71,8 @@ Ensure your PNG files to be converted are not included in your Flutter plugin or
 
 First compile your Interface Builder XIB file into a NIB file (see BinUtilsTestLibrary example RunScript phase "ibtool"). Convert the NIB using bin2c as follows:
 
+> Terminal
+
 ```
 bin2c -h CustomView.nib >CustomViewBin.h
 bin2c CustomView.nib >CustomViewBin.m
@@ -79,6 +85,8 @@ You can continue to edit your XIB files normally with Interface Builder.
 Note that some compiled NIB files are not actually files but directory structures. These cannot currently be converted with bin2c.
 
 You can load the NIB file programmatically from within your static library with the following code:
+
+> Example Objective-C usage
 
 ```objective-c
 // Load NIB file from static array of bytes
@@ -104,10 +112,10 @@ customView.textColor = ...
 
 ## image2c
 
-Generates either a:
+Generates either:
 
-* UIImage category extension OR
-* Flutter class
+* an UIImage category extension *or*
+* a Flutter class
 
 from a list of PNG files. image2c has specific knowledge about @2x, @3x PNG file suffixes.
 
@@ -118,6 +126,8 @@ Assuming 3 PNG files named `sheep.png`, `sheep@2x.png` and `cow.png` the followi
 - a static array in `images.h` and `images.m` *and*
 - an UIImage category extension `UIImage+Images.h` and `UIImages+Images.m`.
 
+> Terminal
+
 ```bash
 bin2c -h *.png >images.h
 bin2c *.png >images.m
@@ -125,7 +135,7 @@ image2c -h Images images.h *.png >UIImage+Images.h
 image2c Images images.h *.png >UIImage+Images.m
 ```
 
-Resulting `UIImage+Images.h` file:
+> Resulting Objective-C `UIImage+Images.h` file:
 
 ```objective-c
 @interface UIImage (Images)
@@ -136,7 +146,7 @@ Resulting `UIImage+Images.h` file:
 @end
 ```
 
-Resulting `UIImage+Images.m` file:
+> Resulting Objective-C `UIImage+Images.m` file:
 
 ```objective-c
 @implementation UIImage (Images)
@@ -164,12 +174,14 @@ Assuming 3 PNG files named `sheep.png`, `sheep@2x.png` and `cow.png` the followi
 - a static array in `rawimages.dart` *and*
 - an Images class in `images.dart`.
 
+> Terminal
+
 ```bash
 bin2c -dart *.png >rawimages.dart
 image2c -dart Images example/ui/images/rawimages *.png >images.dart
 ```
 
-Resulting `images.dart` file:
+> Resulting Dart `images.dart` file:
 
 ```dart
 import 'dart:core';
@@ -200,9 +212,11 @@ Ensure you use the same set of PNG files for bin2c and image2c.
 Included in the workspace are an iOS application BinUtilsTestApp and static library BinUtilsTestLibrary. The BinUtilsTestLibrary includes a `CustomView.xib` Interface Builder file and two images `SettingsIcon.png` and `SettingsIcon@2x.png`. Two RunScript phases are included in the BinUtilsTestLibrary to convert the XIB file and PNG files.
 
 ## Building
+
 The `bin` directory contains pre-compiled versions of the bin2c and image2c utilities. These are used by the RunScript phases in the BinUtilsTestLibrary. You can also rebuild these utilities using the `./build.sh` command or using Xcode IDE.
 
 ## LICENSE
+
 ```
 binutils
 
