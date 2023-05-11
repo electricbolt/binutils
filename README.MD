@@ -3,7 +3,7 @@
 Build time utilities for allowing resources to be included into:
 
 * iOS static libraries (which could otherwise only be included into an iOS dynamic framework).
-* Flutter plugin or apps directly in the binary instead of using the images/ directory.
+* Flutter plugin or apps directly in the binary instead of using the `images/` directory.
 
 ## bin2c
 
@@ -111,7 +111,7 @@ from a list of PNG files. image2c has specific knowledge about @2x, @3x PNG file
 
 ### image2c generating UIImage category extension (Objective-C)
 
-The following example converts all PNG files in a directory into a static array in images.h and images.m and also a UIImage category extension UIImage+Images.h/m.
+The following example converts all PNG files in a directory into a static array in images.h and images.m and also a UIImage category extension `UIImage+Images.h/m`.
 Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
 ```
@@ -121,7 +121,7 @@ image2c -h Images images.h *.png >UIImage+Images.h
 image2c Images images.h *.png >UIImage+Images.m
 ```
 
-Resulting UIImage+Images.h file:
+Resulting `UIImage+Images.h` file:
 
 ```
 @interface UIImage (Images)
@@ -132,7 +132,7 @@ Resulting UIImage+Images.h file:
 @end
 ```
 
-Resulting UIImage+Images.m file:
+Resulting `UIImage+Images.m` file:
 
 ```
 @implementation UIImage (Images)
@@ -155,7 +155,7 @@ Ensure you use the same set of PNG files for bin2c and image2c
 
 ### image2c generating Images class (Dart/Flutter)
 
-The following example converts all PNG files in a directory into a static array in rawimages.dart and also a Images class in images.dart.
+The following example converts all PNG files in a directory into a static array in `rawimages.dart` and also a Images class in `images.dart`.
 Assuming 3 PNG files named `sheep.png`, `sheep@2x.png`, `cow.png`:
 
 ```
@@ -187,14 +187,14 @@ class Images {
 }
 ```
 
-Ensure you use the same set of PNG files for bin2c and image2c
+Ensure you use the same set of PNG files for bin2c and image2c.
 
 ## Examples
 
-Included in the workspace are an iOS application BinUtilsTestApp and static library BinUtilsTestLibrary. The BinUtilsTestLibrary includes a 'CustomView.xib' Interface Builder file and two images 'SettingsIcon.png' and 'SettingsIcon@2x.png'. Two RunScript phases are included in the BinUtilsTestLibrary to convert the XIB file and PNG files.
+Included in the workspace are an iOS application BinUtilsTestApp and static library BinUtilsTestLibrary. The BinUtilsTestLibrary includes a `CustomView.xib` Interface Builder file and two images `SettingsIcon.png` and `SettingsIcon@2x.png`. Two RunScript phases are included in the BinUtilsTestLibrary to convert the XIB file and PNG files.
 
 ## Building
-The bin directory contains pre-compiled versions of the bin2c and image2c utilities. These are used by the RunScript phases in the BinUtilsTestLibrary. You can also rebuild these utilities using the ./build.sh command or using Xcode IDE.
+The `bin` directory contains pre-compiled versions of the bin2c and image2c utilities. These are used by the RunScript phases in the BinUtilsTestLibrary. You can also rebuild these utilities using the `./build.sh` command or using Xcode IDE.
 
 ## LICENSE
 ```
