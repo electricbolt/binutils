@@ -201,7 +201,7 @@ The bin directory contains pre-compiled versions of the bin2c and image2c utilit
 ```
 binutils
 
-Copyright © 2016-2022 Electric Bolt Limited
+Copyright © 2016-2023 Electric Bolt Limited
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
