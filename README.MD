@@ -23,7 +23,7 @@ bin2c -h *.png >images.h
 bin2c *.png >images.m
 ```
 
-Resulting images.h file:
+Resulting `images.h` file:
 
 ```objective-c
 extern unsigned char SHEEP_PNG[1683];
@@ -31,7 +31,7 @@ extern unsigned char SHEEP_2X_PNG[2439];
 extern unsigned char COW_PNG[1215];
 ```
 
-Resulting images.m file:
+Resulting `images.m` file:
 
 ```objective-c
 const unsigned char SHEEP_PNG[1683] = {0x89,0x50,0x4E,0x47...
